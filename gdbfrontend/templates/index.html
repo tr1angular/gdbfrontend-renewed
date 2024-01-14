@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <title>gdbfrontend</title>
+</head>
+<body>
+  <div class="editor-container">
+    <div class="editor" id="codeEditor">
+      {% if loaded_code is defined %}
+        {% for line_num, code in loaded_code.items() %}
+          <div class="code-line" data-line-number="{{ line_num }}">{{ code }}</div>
+        {% endfor %}
+      {% else %}
+        <div class="code-line" data-line-number="1">// Here goes code</div>
+      {% endif %}
+    </div>
+
+    <div class="console-container">
+      <div id="console">
+        <div id="consoleInput" contenteditable="true"></div>
+      </div>
+      <button id="gdbRun">Run gdb command</button>
+      <div id="consoleOutput"></div>
+    </div>
+
+  <div class="upload-container">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <label for="fileUpload">Load executable</label>
+      <input type="file" name="file" id="fileUpload">
+      <button type="submit">Load file</button>
+    </form>
+  </div>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
